@@ -1,7 +1,16 @@
-import { greetUser } from '$utils/greet';
+import './index.css';
+
+import {
+  initAboutTextAppear,
+  initEngagementParallax,
+  initIntelligenceEllipses,
+  initTagsAppear,
+} from '$utils/gsap';
 
 window.Webflow ||= [];
 window.Webflow.push(() => {
-  const name = 'John Doe';
-  greetUser(name);
+  initTagsAppear();
+  initAboutTextAppear();
+  initEngagementParallax();
+  initIntelligenceEllipses();
 });

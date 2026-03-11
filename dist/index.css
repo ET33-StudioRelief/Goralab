@@ -1,0 +1,28 @@
+/* src/css/home.css */
+[trigger=heading] {
+  animation: hero-fade-up 0.8s ease-out forwards;
+}
+[trigger=svg-scroll-down] {
+  animation: hero-fade-up 0.6s ease-out 0.2s forwards, scroll-bounce 1.4s ease-in-out 1s infinite;
+}
+@keyframes hero-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes scroll-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* src/index.css */
+/*# sourceMappingURL=index.css.map */

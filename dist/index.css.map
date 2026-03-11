@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../src/css/home.css"],
+  "sourcesContent": ["/* Hero */\n[trigger='heading'] {\n  animation: hero-fade-up 0.8s ease-out forwards;\n}\n\n[trigger='svg-scroll-down'] {\n  animation:\n    /* fade in + move up, l\u00E9g\u00E8rement d\u00E9cal\u00E9 apr\u00E8s le heading */\n    hero-fade-up 0.6s ease-out 0.2s forwards,\n    /* bounce vertical continu, d\u00E9marrant apr\u00E8s l\u2019apparition */\n    scroll-bounce 1.4s ease-in-out 1s infinite;\n}\n\n@keyframes hero-fade-up {\n  from {\n    opacity: 0;\n    transform: translateY(16px);\n  }\n  to {\n    opacity: 1;\n    transform: translateY(0);\n  }\n}\n\n@keyframes scroll-bounce {\n  0%,\n  100% {\n    transform: translateY(0);\n  }\n  50% {\n    transform: translateY(-8px);\n  }\n}\n"],
+  "mappings": ";AACA,CAAC;AACC,aAAW,aAAa,KAAK,SAAS;AACxC;AAEA,CAAC;AACC,aAEE,aAAa,KAAK,SAAS,KAAK,QAAQ,EAExC,cAAc,KAAK,YAAY,GAAG;AACtC;AAEA,WAXa;AAYX;AACE,aAAS;AACT,eAAW,WAAW;AACxB;AACA;AACE,aAAS;AACT,eAAW,WAAW;AACxB;AACF;AAEA,WAdI;AAeF;AAEE,eAAW,WAAW;AACxB;AACA;AACE,eAAW,WAAW;AACxB;AACF;",
+  "names": []
+}
