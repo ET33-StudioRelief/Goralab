@@ -73,35 +73,34 @@ export function initIntelligenceEllipses() {
   const count = images.length;
   if (!count) return;
 
-  // On place d'abord les images dans le SVG pour pouvoir mesurer leur bbox
-  images.forEach((img) => {
-    orbit.appendChild(img);
-  });
-
-  // Répartition égale des images sur le cercle, centrées sur leur propre bbox
   images.forEach((img, index) => {
-    const angle = (index / count) * Math.PI * 2; // 0 → 2π
+    // angle de départ (répartition égale sur 0 → 2π)
+    const baseAngle = (index / count) * Math.PI * 2;
+    const state = { angle: baseAngle };
 
-    // Taille réelle de l'image dans le repère SVG
-    const bbox = img.getBBox();
-    const w = bbox.width || 40;
-    const h = bbox.height || 40;
+    const updatePosition = () => {
+      const bbox = img.getBBox();
+      const w = bbox.width || 40;
+      const h = bbox.height || 40;
 
-    const xCenter = cx + r * Math.cos(angle);
-    const yCenter = cy + r * Math.sin(angle);
+      const xCenter = cx + r * Math.cos(state.angle);
+      const yCenter = cy + r * Math.sin(state.angle);
 
-    // On positionne l'image de façon à ce que son centre tombe sur le cercle
-    img.setAttribute('x', String(xCenter - w / 2));
-    img.setAttribute('y', String(yCenter - h / 2));
-  });
+      img.setAttribute('x', String(xCenter - w / 2));
+      img.setAttribute('y', String(yCenter - h / 2));
+    };
 
-  // Rotation continue de l'orbite complète
-  gsap.to(orbit, {
-    rotation: 360,
-    duration: 60,
-    ease: 'none',
-    repeat: -1,
-    svgOrigin: `${cx} ${cy}`,
+    // position initiale
+    updatePosition();
+
+    // animation continue de l’angle (tour complet)
+    gsap.to(state, {
+      angle: baseAngle + Math.PI * 2,
+      duration: 60,
+      ease: 'none',
+      repeat: -1,
+      onUpdate: updatePosition,
+    });
   });
 }
 
@@ -167,20 +166,16 @@ export function initHeroScale() {
   const section = document.querySelector<HTMLElement>('.section_hero');
   if (!img || !section) return;
 
-  gsap.fromTo(
-    img,
-    { scale: 1.15 }, // légèrement zoomé en haut de page
-    {
-      scale: 1, // revient à 1 en fin de hero
-      ease: 'none',
-      scrollTrigger: {
-        trigger: section,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: true,
-      },
-    }
-  );
+  gsap.to(img, {
+    yPercent: 15,
+    ease: 'none',
+    scrollTrigger: {
+      trigger: section,
+      start: 'top top',
+      end: 'bottom top',
+      scrub: true,
+    },
+  });
 }
 
 export function initIntelligenceTextAppear() {
