@@ -162,24 +162,6 @@ export function initFeaturesStack() {
   });
 }
 
-export function initFooterAppear() {
-  const footer = document.querySelector<HTMLElement>('.footer_component');
-  const trigger = document.querySelector<HTMLElement>('.office_content');
-
-  if (!footer || !trigger) return;
-
-  gsap.from(footer, {
-    y: 40,
-    duration: 0.6,
-    ease: 'power2.out',
-    scrollTrigger: {
-      trigger,
-      start: 'top top',
-      toggleActions: 'play none none none',
-    },
-  });
-}
-
 export function initHeroScale() {
   const img = document.querySelector<HTMLElement>('.hero_bg-wrap img');
   const section = document.querySelector<HTMLElement>('.section_hero');

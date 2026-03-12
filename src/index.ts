@@ -4,7 +4,6 @@ import {
   initAboutTextAppear,
   initEngagementParallax,
   initFeaturesStack,
-  initFooterAppear,
   initHeroScale,
   initIntelligenceEllipses,
   initIntelligenceTextAppear,
@@ -18,7 +17,6 @@ window.Webflow.push(() => {
   initEngagementParallax();
   initIntelligenceEllipses();
   initFeaturesStack();
-  initFooterAppear();
   initHeroScale();
   initIntelligenceTextAppear();
 });
