@@ -48,7 +48,7 @@ export function initEngagementParallax() {
   if (!image) return;
 
   gsap.to(image, {
-    yPercent: -25,
+    yPercent: -15,
     ease: 'none',
     scrollTrigger: {
       trigger: section,
@@ -73,20 +73,26 @@ export function initIntelligenceEllipses() {
   const count = images.length;
   if (!count) return;
 
-  // Répartition égale des images sur le cercle
+  // On place d'abord les images dans le SVG pour pouvoir mesurer leur bbox
+  images.forEach((img) => {
+    orbit.appendChild(img);
+  });
+
+  // Répartition égale des images sur le cercle, centrées sur leur propre bbox
   images.forEach((img, index) => {
     const angle = (index / count) * Math.PI * 2; // 0 → 2π
 
-    const widthAttr = img.getAttribute('width');
-    const heightAttr = img.getAttribute('height');
-    const w = widthAttr ? parseFloat(widthAttr) : 40;
-    const h = heightAttr ? parseFloat(heightAttr) : 40;
+    // Taille réelle de l'image dans le repère SVG
+    const bbox = img.getBBox();
+    const w = bbox.width || 40;
+    const h = bbox.height || 40;
 
-    const x = cx + r * Math.cos(angle) - w / 2;
-    const y = cy + r * Math.sin(angle) - h / 2;
+    const xCenter = cx + r * Math.cos(angle);
+    const yCenter = cy + r * Math.sin(angle);
 
-    img.setAttribute('x', String(x));
-    img.setAttribute('y', String(y));
+    // On positionne l'image de façon à ce que son centre tombe sur le cercle
+    img.setAttribute('x', String(xCenter - w / 2));
+    img.setAttribute('y', String(yCenter - h / 2));
   });
 
   // Rotation continue de l'orbite complète
@@ -96,5 +102,123 @@ export function initIntelligenceEllipses() {
     ease: 'none',
     repeat: -1,
     svgOrigin: `${cx} ${cy}`,
+  });
+}
+
+export function initFeaturesStack() {
+  ScrollTrigger.matchMedia({
+    '(min-width: 993px)': () => {
+      const sections = Array.from(document.querySelectorAll<HTMLElement>('.section_features'));
+      if (sections.length < 2) return;
+
+      // Effet 3D entre features (1→2, 2→3, etc.)
+      sections.forEach((section, index) => {
+        const next = sections[index + 1];
+        if (!next) return;
+
+        gsap.fromTo(
+          section,
+          { scale: 1, z: 0 },
+          {
+            scale: 0.9,
+            z: -120,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: next,
+              start: 'top bottom',
+              end: 'top top',
+              scrub: true,
+            },
+          }
+        );
+      });
+
+      // Effet pour la dernière feature quand la section engagement arrive (si tu l’as gardé)
+      const lastFeature = sections[sections.length - 1];
+      const engagement = document.querySelector<HTMLElement>('.section_engagement');
+
+      if (lastFeature && engagement) {
+        gsap.fromTo(
+          lastFeature,
+          { scale: 1, z: 0 },
+          {
+            scale: 0.9,
+            z: -160,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: engagement,
+              start: 'top bottom',
+              end: 'top top',
+              scrub: true,
+            },
+          }
+        );
+      }
+
+      return () => {
+        // cleanup auto des ScrollTriggers créés dans ce bloc quand on sort du breakpoint
+      };
+    },
+  });
+}
+
+export function initFooterAppear() {
+  const footer = document.querySelector<HTMLElement>('.footer_component');
+  const trigger = document.querySelector<HTMLElement>('.office_content');
+
+  if (!footer || !trigger) return;
+
+  gsap.from(footer, {
+    y: 40,
+    duration: 0.6,
+    ease: 'power2.out',
+    scrollTrigger: {
+      trigger,
+      start: 'top top',
+      toggleActions: 'play none none none',
+    },
+  });
+}
+
+export function initHeroScale() {
+  const img = document.querySelector<HTMLElement>('.hero_bg-wrap img');
+  const section = document.querySelector<HTMLElement>('.section_hero');
+  if (!img || !section) return;
+
+  gsap.fromTo(
+    img,
+    { scale: 1.15 }, // légèrement zoomé en haut de page
+    {
+      scale: 1, // revient à 1 en fin de hero
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    }
+  );
+}
+
+export function initIntelligenceTextAppear() {
+  const trigger = document.querySelector<HTMLElement>('.section_intelligence');
+  const container = document.querySelector<HTMLElement>('.intelligence_txt-content');
+  if (!trigger || !container) return;
+
+  const children = Array.from(container.children) as HTMLElement[];
+  if (!children.length) return;
+
+  gsap.from(children, {
+    opacity: 0,
+    y: 20,
+    duration: 0.6,
+    ease: 'power2.out',
+    stagger: 0.15,
+    scrollTrigger: {
+      trigger,
+      start: 'top 60%',
+      toggleActions: 'play none none none',
+    },
   });
 }
