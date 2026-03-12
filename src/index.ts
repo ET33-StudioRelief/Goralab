@@ -3,7 +3,11 @@ import './index.css';
 import {
   initAboutTextAppear,
   initEngagementParallax,
+  initFeaturesStack,
+  initFooterAppear,
+  initHeroScale,
   initIntelligenceEllipses,
+  initIntelligenceTextAppear,
   initTagsAppear,
 } from '$utils/gsap';
 
@@ -13,4 +17,8 @@ window.Webflow.push(() => {
   initAboutTextAppear();
   initEngagementParallax();
   initIntelligenceEllipses();
+  initFeaturesStack();
+  initFooterAppear();
+  initHeroScale();
+  initIntelligenceTextAppear();
 });
