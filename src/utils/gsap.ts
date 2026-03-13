@@ -59,7 +59,7 @@ export function initEngagementParallax() {
   });
 }
 
-/*export function initIntelligenceEllipses() {
+export function initIntelligenceEllipses() {
   const circle = document.querySelector<SVGCircleElement>('[trigger="ellipse-path"]');
   const orbit = document.querySelector<SVGGElement>('#ellipse-orbit');
   if (!circle || !orbit) return;
@@ -74,15 +74,14 @@ export function initEngagementParallax() {
   if (!count) return;
 
   images.forEach((img, index) => {
-    // angle de départ (répartition égale sur 0 → 2π)
     const baseAngle = (index / count) * Math.PI * 2;
     const state = { angle: baseAngle };
 
-    const updatePosition = () => {
-      const bbox = img.getBBox();
-      const w = bbox.width || 40;
-      const h = bbox.height || 40;
+    // Lire les attributs directement plutôt que getBBox()
+    const w = parseFloat(img.getAttribute('width') ?? '40');
+    const h = parseFloat(img.getAttribute('height') ?? '40');
 
+    const updatePosition = () => {
       const xCenter = cx + r * Math.cos(state.angle);
       const yCenter = cy + r * Math.sin(state.angle);
 
@@ -90,10 +89,8 @@ export function initEngagementParallax() {
       img.setAttribute('y', String(yCenter - h / 2));
     };
 
-    // position initiale
     updatePosition();
 
-    // animation continue de l’angle (tour complet)
     gsap.to(state, {
       angle: baseAngle + Math.PI * 2,
       duration: 60,
@@ -102,7 +99,7 @@ export function initEngagementParallax() {
       onUpdate: updatePosition,
     });
   });
-}*/
+}
 
 export function initFeaturesStack() {
   ScrollTrigger.matchMedia({
