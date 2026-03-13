@@ -4,8 +4,8 @@ import {
   initAboutTextAppear,
   initEngagementParallax,
   initFeaturesStack,
-  initHeroScale,
-  initIntelligenceEllipses,
+  initHeroParallax,
+  /*initIntelligenceEllipses,*/
   initIntelligenceTextAppear,
   initTagsAppear,
 } from '$utils/gsap';
@@ -15,8 +15,8 @@ window.Webflow.push(() => {
   initTagsAppear();
   initAboutTextAppear();
   initEngagementParallax();
-  initIntelligenceEllipses();
+  /*initIntelligenceEllipses();*/
   initFeaturesStack();
-  initHeroScale();
+  initHeroParallax();
   initIntelligenceTextAppear();
 });

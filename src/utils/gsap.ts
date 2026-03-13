@@ -59,7 +59,7 @@ export function initEngagementParallax() {
   });
 }
 
-export function initIntelligenceEllipses() {
+/*export function initIntelligenceEllipses() {
   const circle = document.querySelector<SVGCircleElement>('[trigger="ellipse-path"]');
   const orbit = document.querySelector<SVGGElement>('#ellipse-orbit');
   if (!circle || !orbit) return;
@@ -102,7 +102,7 @@ export function initIntelligenceEllipses() {
       onUpdate: updatePosition,
     });
   });
-}
+}*/
 
 export function initFeaturesStack() {
   ScrollTrigger.matchMedia({
@@ -161,19 +161,29 @@ export function initFeaturesStack() {
   });
 }
 
-export function initHeroScale() {
-  const img = document.querySelector<HTMLElement>('.hero_bg-wrap img');
-  const section = document.querySelector<HTMLElement>('.section_hero');
-  if (!img || !section) return;
+export function initHeroParallax() {
+  ScrollTrigger.matchMedia({
+    '(min-width: 993px)': () => {
+      const img = document.querySelector<HTMLElement>('.hero_bg-wrap img');
+      if (!img) return;
 
-  gsap.to(img, {
-    yPercent: 15,
-    ease: 'none',
-    scrollTrigger: {
-      trigger: section,
-      start: 'top top',
-      end: 'bottom top',
-      scrub: true,
+      gsap.to(img, {
+        yPercent: 30,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: img,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true,
+          markers: true,
+        },
+      });
+
+      return () => {
+        ScrollTrigger.getAll()
+          .filter((st) => st.trigger === img)
+          .forEach((st) => st.kill());
+      };
     },
   });
 }
