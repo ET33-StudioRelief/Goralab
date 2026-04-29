@@ -20,10 +20,23 @@ const runAnimations = () => {
   initIntelligenceTextAppear();
 };
 
-// Si on est sur un embed Webflow, Webflow appelle lui-même la queue `window.Webflow.push`.
-// Sinon, on exécute dès que le DOM est prêt.
+let started = false;
+const runOnce = () => {
+  if (started) return;
+  started = true;
+  runAnimations();
+};
+
+// Cas 1 : Webflow est chargé et sa queue est fonctionnelle → on lui délègue
 if (window.Webflow && typeof window.Webflow.push === 'function') {
-  window.Webflow.push(runAnimations);
-} else {
-  window.addEventListener('DOMContentLoaded', runAnimations);
+  window.Webflow.push(runOnce);
+}
+// Cas 2 : Hébergement non-Webflow → fallback DOM natif uniquement
+else {
+  if (document.readyState === 'loading') {
+    window.addEventListener('DOMContentLoaded', runOnce, { once: true });
+  } else {
+    // DOM déjà prêt (script chargé en différé ou en bas de page)
+    runOnce();
+  }
 }
