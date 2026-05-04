@@ -5,7 +5,7 @@ import {
   initEngagementParallax,
   initFeaturesStack,
   initHeroParallax,
-  initIntelligenceEllipses,
+  //initIntelligenceEllipses,
   initIntelligenceTextAppear,
   initTagsAppear,
 } from '$utils/gsap';
@@ -14,7 +14,7 @@ const runAnimations = () => {
   initTagsAppear();
   initAboutTextAppear();
   initEngagementParallax();
-  initIntelligenceEllipses();
+  //initIntelligenceEllipses();
   initFeaturesStack();
   initHeroParallax();
   initIntelligenceTextAppear();
@@ -25,8 +25,8 @@ const runOnce = () => {
   if (started) return;
   started = true;
   runAnimations();
+  window.dispatchEvent(new CustomEvent('bundle:ready'));
 };
-
 // Cas 1 : Webflow est chargé et sa queue est fonctionnelle → on lui délègue
 if (window.Webflow && typeof window.Webflow.push === 'function') {
   window.Webflow.push(runOnce);

@@ -2,6 +2,13 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
+// Expose gsap pour les scripts inline
+declare global {
+  interface Window {
+    gsap: typeof gsap;
+  }
+}
+window.gsap = gsap;
 
 export function initTagsAppear() {
   const tags = document.querySelectorAll<HTMLElement>('.tag');
@@ -59,7 +66,7 @@ export function initEngagementParallax() {
   });
 }
 
-export function initIntelligenceEllipses() {
+/*export function initIntelligenceEllipses() {
   const circle = document.querySelector<SVGCircleElement>('[trigger="ellipse-path"]');
   const orbit = document.querySelector<SVGGElement>('#ellipse-orbit');
   if (!circle || !orbit) return;
@@ -99,7 +106,7 @@ export function initIntelligenceEllipses() {
       onUpdate: updatePosition,
     });
   });
-}
+}*/
 
 export function initFeaturesStack() {
   ScrollTrigger.matchMedia({
